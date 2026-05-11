@@ -1,5 +1,7 @@
 # Parlay — Prediction Market MCP Server
 
+[![smithery badge](https://smithery.ai/badge/parlay-run/parlay)](https://smithery.ai/servers/parlay-run/parlay)
+
 A unified MCP server for prediction markets. Search and compare across Polymarket, Kalshi, Limitless, and Manifold from inside Claude, ChatGPT, Gemini, OpenClaw, and any MCP-compatible AI client.
 
 Parlay aggregates real-money prediction markets and sentiment markets through one hosted endpoint, with mechanical separation between the two so that real-money analysis never gets contaminated with play-money signal.
