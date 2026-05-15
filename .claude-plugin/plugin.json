@@ -1,0 +1,9 @@
+{
+  "name": "parlay",
+  "version": "0.1.0",
+  "description": "AI-native prediction market aggregator. Live odds and arbitrage signals across Polymarket, Kalshi, and Limitless.",
+  "author": {
+    "name": "Parlay",
+    "url": "https://parlay.run"
+  }
+}

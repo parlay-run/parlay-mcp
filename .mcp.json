@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "parlay": {
+      "url": "https://mcp.parlay.run/mcp",
+      "transport": "streamable-http",
+      "headers": {
+        "Authorization": "Bearer ${PARLAY_TOKEN}"
+      },
+      "connectionTimeoutMs": 30000
+    }
+  }
+}
