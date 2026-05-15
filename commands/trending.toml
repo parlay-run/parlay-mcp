@@ -1,0 +1,12 @@
+description = "Show what's trending on prediction markets right now"
+prompt = """
+Use the parlay__discover_markets tool with filter='trending'.
+
+Group results by category (Politics, Crypto, Sports, Macro, Other) and within each group show the top 3 by volume. For each market include:
+- Title
+- Current consensus probability
+- Volume
+- Primary venue
+
+Keep it scannable — no long descriptions per market.
+"""

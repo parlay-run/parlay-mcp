@@ -1,0 +1,13 @@
+description = "Scan for cross-venue price discrepancies on real-money prediction markets"
+prompt = """
+Use the parlay__scan_discrepancies tool to find current cross-venue price gaps.
+
+Present the top 5 by spread size in a table:
+| Market | Venue A (price) | Venue B (price) | Spread | Volume |
+
+Important: after the table, always note:
+- These are observed gaps, not guaranteed arbitrage
+- Resolution criteria may differ across venues for ostensibly the same event
+- Trading fees, withdrawal friction, and timing may eliminate the spread
+- Manifold prices are play-money and excluded
+"""

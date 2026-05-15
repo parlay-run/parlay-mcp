@@ -1,0 +1,13 @@
+description = "Generate an AI-ready brief for a prediction market topic"
+prompt = """
+Use the parlay__market_brief tool to generate a brief for: {{args}}
+
+Then summarize for the user:
+1. Current consensus probability across real-money venues (Polymarket, Kalshi, Limitless)
+2. Volume and liquidity
+3. Recent movement (last 24h if available)
+4. Any cross-venue disagreement worth flagging
+5. Resolution date and criteria
+
+Cite venue name and timestamp for all probabilities.
+"""

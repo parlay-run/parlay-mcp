@@ -1,0 +1,11 @@
+{
+  "name": "parlay",
+  "version": "0.1.0",
+  "description": "Parlay provides read-only prediction market search, briefs, discovery, comparison, and discrepancy scanning through a hosted MCP server.",
+  "mcpServers": {
+    "parlay": {
+      "httpUrl": "https://mcp.parlay.run/mcp"
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}

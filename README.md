@@ -102,6 +102,39 @@ Parlay's real-money venue access is built on [PMXT](https://www.pmxt.dev), an op
 - [Terms of Service](TERMS.md)
 - Issues and questions: file an issue on this repository
 
+## Install for Gemini CLI
+
+One-line install:
+
+```bash
+gemini extensions install https://github.com/parlay-run/parlay-mcp
+```
+
+This installs:
+- The Parlay MCP server connection
+- Three slash commands: `/parlay:brief`, `/parlay:arb`, `/parlay:trending`
+- Context file teaching Gemini about Parlay's venue coverage and caveats
+
+### Verify
+
+After install, run `gemini` and type `/mcp`. You should see `parlay` listed as Connected with 6 tools.
+
+### Examples
+
+```
+/parlay:brief 2026 US midterms
+/parlay:arb
+/parlay:trending
+```
+
+Or just ask naturally: "what's the current Polymarket probability on the Fed cutting rates in June?"
+
+### Updating
+
+```bash
+gemini extensions update parlay
+```
+
 ## License
 
 Proprietary. See [TERMS.md](TERMS.md) for full usage terms.
