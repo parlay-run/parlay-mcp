@@ -1,67 +1,72 @@
 # Parlay — Prediction Market MCP Server
 
-[![smithery badge](https://smithery.ai/badge/parlay-run/parlay)](https://smithery.ai/servers/parlay-run/parlay)
+The AI-native intelligence layer for prediction markets.
 
-A unified MCP server for prediction markets. Search and compare across Polymarket, Kalshi, Limitless, and Manifold from inside Claude, ChatGPT, Gemini, OpenClaw, and any MCP-compatible AI client.
+Parlay is a hosted MCP server for searching, comparing, and briefing prediction markets from AI assistants. It is a PMXT-backed aggregator over Polymarket, Kalshi, and Limitless, with Manifold treated separately as a sentiment-only signal. This repository is the public bundle and connection reference for the hosted Parlay service at `https://mcp.parlay.run/mcp`; it does not contain the MCP server implementation.
 
-Parlay aggregates real-money prediction markets and sentiment markets through one hosted endpoint, with mechanical separation between the two so that real-money analysis never gets contaminated with play-money signal.
+## What it does
 
-## Tools
-
-| Tool | Purpose | Plan |
-|------|---------|------|
-| `search_markets` | Cross-venue keyword search for live prediction markets and event contracts | Free |
-| `market_brief` | Synthesized brief on a topic, combining real-money signals with community sentiment | Free |
-| `discover_markets` | Browse trending, high-volume, fast-moving, or high-disagreement markets | Pro |
-| `compare_markets` | Compare the same event contract across venues side-by-side — probability, liquidity, settlement | Pro |
-| `scan_discrepancies` | Surface cross-venue price discrepancies as a discovery feed (informational, not trade recommendations) | Pro |
-| `inspect_platform` | Drill into a single named venue | Pro |
+| Tool | What it does |
+| --- | --- |
+| `search_markets` | Cross-venue keyword search for live prediction markets and event contracts |
+| `market_brief` | Synthesized brief on a topic, combining real-money signals with community sentiment |
+| `discover_markets` | Browse trending, high-volume, fast-moving, or high-disagreement markets |
+| `compare_markets` | Compare the same event contract across venues side-by-side — probability, liquidity, settlement |
+| `scan_discrepancies` | Surface cross-venue price discrepancies as a discovery feed (informational, not trade recommendations) |
+| `inspect_platform` | Drill into a single named venue |
 
 Every tool response carries unified metadata: data freshness, venues queried, venues failed, market type (`real_money` / `sentiment` / `mixed`), match confidence (`high` / `medium` / `low` / `not_applicable`), liquidity status, risk flags, and a standard non-trade-recommendation disclaimer.
 
-Typical queries Parlay handles well:
-
-- *"Search bitcoin prediction markets across all venues."*
-- *"What's trending in AI markets today?"*
-- *"Compare 2028 election odds across venues."*
-- *"Brief me on Fed rate decision markets."*
-- *"What's on Kalshi for Q4 inflation?"*
-
 ## Connect
 
-```
-MCP URL:   https://mcp.parlay.run/mcp
-Auth:      OAuth
-Transport: Streamable HTTP
-```
+Parlay supports two connection paths depending on your client.
 
-### Claude (Desktop, web, mobile, Cowork)
+### Path A — Claude.ai (Desktop, web, mobile, Cowork)
 
 Parlay connects through Claude's Custom Connectors interface. The same flow works across all Claude surfaces.
 
-1. Open Claude settings (click your profile icon → **Settings**).
+1. Open Claude settings (profile icon → **Settings**).
 2. In the sidebar, select **Connectors**.
 3. Scroll to the bottom and click **Add custom connector**.
 4. Enter URL: `https://mcp.parlay.run/mcp`
-5. Click **Add**, then **Connect** to complete the OAuth authorization.
+5. Click **Add**, then **Connect** to complete OAuth authorization.
 
 Parlay's tools will appear in your tool list on the next message.
 
-> **Note:** Custom connectors are available on Free, Pro, Max, Team, and Enterprise plans. Free Claude users are limited to one custom connector at a time. Do **not** configure Parlay through `claude_desktop_config.json` — that file is for local stdio MCP servers only; Parlay is a remote MCP server.
+> **Note:** Custom Connectors are available on Free, Pro, Max, Team, and Enterprise plans. Free Claude users are limited to one custom connector at a time. Do **not** configure Parlay through `claude_desktop_config.json` — that file is for local stdio MCP servers only; Parlay is a remote MCP server.
 
-### Cursor, Cline, OpenClaw, and other MCP clients
+### Path B — OpenClaw, Cursor, Cline, Claude Code, and other JSON-config clients
 
-Add `https://mcp.parlay.run/mcp` to your client's MCP server configuration. The OAuth flow will trigger on first tool call. Refer to your client's MCP setup documentation for the exact configuration file location and remote-MCP support status.
+These clients read MCP server configuration from a JSON file and don't run an OAuth dance themselves. Use a personal access token instead.
+
+1. Generate a token at https://parlay.run/settings/tokens
+2. Export it: `export PARLAY_TOKEN=parlay_pat_xxxxxxxxxxxx`
+
+**OpenClaw**
+
+```bash
+git clone https://github.com/parlay-run/parlay-mcp.git
+openclaw plugins install ./parlay-mcp
+openclaw gateway restart
+```
+
+**Cursor / Cline / Claude Code**
+
+Drop the `parlay` entry from `.mcp.json` (at the root of this repo) into your client's MCP server config.
 
 ## Coverage
 
-**Primary real-money venues:** Polymarket, Kalshi
+- Real-money: Polymarket, Kalshi, Limitless
+- Sentiment (architecturally separated): Manifold
+- Catalog-only: Smarkets, Myriad, Metaculus, Probable, Baozi
 
-**Secondary PMXT-backed venues/sources:** Limitless, Opinion.trade, Smarkets, Myriad, Metaculus, Probable, Baozi
+## Compliance posture
 
-Secondary sources may have incomplete pricing, volume, or liquidity data. Parlay flags these cases with metadata such as `secondary_venue_data`, `volume_unconfirmed`, and `depth_unknown_on_one_platform`, so downstream tools and AI agents can treat them with appropriate caution.
-
-**Sentiment venues:** Manifold — isolated from real-money comparison and discrepancy tools.
+- **Read-only.** No order placement, no position management, no fund custody.
+- **No private credentials handled.** Users never share venue API keys with Parlay.
+- **Sentiment isolation.** Manifold is mechanically excluded from real-money tools (`compare_markets`, `scan_discrepancies`). The `sentiment_market_excluded` risk flag is emitted whenever it is filtered out.
+- **Settlement and liquidity risk flags.** Markets with weak settlement criteria, missing volume data, or stale signals carry explicit risk flags in their metadata.
+- **Standard disclaimers.** Every tool response carries a non-trade-recommendation disclaimer in its metadata block.
 
 ```
                   Claude / ChatGPT / Gemini / OpenClaw
@@ -80,15 +85,9 @@ Secondary sources may have incomplete pricing, volume, or liquidity data. Parlay
 
 ## Pricing
 
-Parlay offers a free plan for basic market search and briefs. Pro unlocks the full toolset, including discovery, cross-venue comparison, discrepancy scanning, and platform inspection. See [parlay.run/pricing](https://parlay.run/pricing) for current pricing.
-
-## Compliance posture
-
-- **Read-only.** No order placement, no position management, no fund custody.
-- **No private credentials handled.** Users never share venue API keys with Parlay.
-- **Sentiment isolation.** Manifold is mechanically excluded from real-money tools (`compare_markets`, `scan_discrepancies`). The `sentiment_market_excluded` risk flag is emitted whenever it is filtered out.
-- **Settlement and liquidity risk flags.** Markets with weak settlement criteria, missing volume data, or stale signals carry explicit risk flags in their metadata.
-- **Standard disclaimers.** Every tool response carries a non-trade-recommendation disclaimer in its metadata block.
+- **Free**: 15 tool calls / month (search_markets, market_brief)
+- **Pro**: $29/mo, 150 calls / month
+- **Team**: coming soon, 1,500 calls / month
 
 ## Built on
 
@@ -96,47 +95,9 @@ Parlay's real-money venue access is built on [PMXT](https://www.pmxt.dev), an op
 
 ## Resources
 
-- [parlay.run](https://parlay.run) — main site
-- [parlay.run/pricing](https://parlay.run/pricing) — current pricing
-- [Privacy Policy](PRIVACY.md)
-- [Terms of Service](TERMS.md)
-- Issues and questions: file an issue on this repository
-
-## Install for Gemini CLI
-
-One-line install:
-
-```bash
-gemini extensions install https://github.com/parlay-run/parlay-mcp
-```
-
-This installs:
-- The Parlay MCP server connection
-- Three slash commands: `/parlay:brief`, `/parlay:arb`, `/parlay:trending`
-- Context file teaching Gemini about Parlay's venue coverage and caveats
-
-### Verify
-
-After install, run `gemini` and type `/mcp`. You should see `parlay` listed as Connected with 6 tools.
-
-### Examples
-
-```
-/parlay:brief 2026 US midterms
-/parlay:arb
-/parlay:trending
-```
-
-Or just ask naturally: "what's the current Polymarket probability on the Fed cutting rates in June?"
-
-### Updating
-
-```bash
-gemini extensions update parlay
-```
+- [parlay.run](https://parlay.run)
+- Server endpoint: https://mcp.parlay.run/mcp
 
 ## License
 
-Proprietary. See [TERMS.md](TERMS.md) for full usage terms.
-
-The contents of this repository are published for transparency and review. They are **not** licensed for redistribution, modification, or commercial use. Parlay is delivered as a hosted service; usage of the service is governed by the Terms of Service.
+Proprietary. See [TERMS.md](TERMS.md).
