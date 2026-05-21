@@ -1,12 +1,14 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "run.parlay/parlay",
-  "description": "Prediction market aggregator. Search and compare across Polymarket, Kalshi, Limitless, Manifold.",
+  "name": "io.github.parlay-run/parlay",
+  "title": "Parlay",
+  "description": "Read-only MCP server for live Polymarket, Kalshi, Limitless odds; Manifold sentiment.",
+  "version": "1.0.0",
+  "websiteUrl": "https://parlay.run",
   "repository": {
     "url": "https://github.com/parlay-run/parlay-mcp",
     "source": "github"
   },
-  "version": "1.0.0",
   "remotes": [
     {
       "type": "streamable-http",
