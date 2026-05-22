@@ -1,5 +1,7 @@
 # Parlay — Prediction Market MCP Server
 
+[![MCP Badge](https://lobehub.com/badge/mcp/parlay-run-parlay-mcp)](https://lobehub.com/mcp/parlay-run-parlay-mcp)
+
 The AI-native intelligence layer for prediction markets.
 
 Parlay is a hosted MCP server for searching, comparing, and briefing prediction markets from AI assistants. It is a PMXT-backed aggregator over Polymarket, Kalshi, and Limitless, with Manifold treated separately as a sentiment-only signal. This repository is the public bundle and connection reference for the hosted Parlay service at `https://mcp.parlay.run/mcp`; it does not contain the MCP server implementation.

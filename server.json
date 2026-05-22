@@ -3,7 +3,7 @@
   "name": "run.parlay/parlay",
   "title": "Parlay",
   "description": "Read-only MCP server for live Polymarket, Kalshi, Limitless odds; Manifold sentiment.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "websiteUrl": "https://parlay.run",
   "repository": {
     "url": "https://github.com/parlay-run/parlay-mcp",
@@ -12,7 +12,21 @@
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://mcp.parlay.run/mcp"
+      "url": "https://mcp.parlay.run/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {PARLAY_TOKEN}",
+          "variables": {
+            "PARLAY_TOKEN": {
+              "description": "Parlay personal access token from https://parlay.run/settings/tokens",
+              "isRequired": true,
+              "isSecret": true,
+              "placeholder": "parlay_pat_xxxxxxxxxxxx"
+            }
+          }
+        }
+      ]
     }
   ]
 }
