@@ -5,9 +5,11 @@
 ## 1. Agreement
 
 These Terms of Service govern your use of Parlay, including parlay.run, the
-Parlay dashboard, documentation, source-code repository materials, and Parlay
-MCP tools (the "Service"). By accessing or using Parlay, you agree to these
-Terms. If you do not agree, do not use Parlay.
+Parlay dashboard, hosted documentation, hosted APIs, accounts, and Parlay MCP
+tools (the "Service"). The public repository materials described in Section
+10 are licensed separately under the repository's MIT License. By accessing or
+using Parlay, you agree to these Terms. If you do not agree, do not use
+Parlay.
 
 ## 2. Service Scope
 
@@ -16,9 +18,9 @@ Context Protocol (MCP). The Service helps users search, discover, compare,
 inspect, scan, and summarize market information across supported venues and
 data sources.
 
-The hosted MCP endpoint is `https://mcp.parlay.run/mcp`. Local development
-servers, source code, and repository materials are not a separate public
-service offering.
+The hosted MCP endpoint is `https://mcp.parlay.run/mcp`. The public repository
+at `github.com/parlay-run/parlay-mcp` is a connection/reference bundle under
+its repository license, not a separate public service offering.
 
 Parlay does not provide order placement, custody, wallet services, brokerage
 services, exchange services, investment advisory services, tax advice, or legal
@@ -113,38 +115,25 @@ providers. Their terms and privacy policies may also apply. Parlay is not
 responsible for third-party services, outages, data changes, or venue
 decisions.
 
-## 10. Source Code and Repository License
+## 10. Repository License
 
-The source code and repository materials are published for transparency, code
-review, and educational reference. They are proprietary software.
+The public repository at `github.com/parlay-run/parlay-mcp` contains
+connection references, metadata, examples, and client configuration files for
+the hosted Parlay MCP service. Those repository contents are licensed under
+the MIT License as stated in the repository's LICENSE file.
 
-**Notice regarding earlier commits.** Prior to April 29, 2026, this
-repository's package metadata listed an MIT license. That designation was
-incorrect and did not reflect the maintainer's intent. As of the commit that
-introduced these Terms, the entire codebase, including all current and future
-versions, is governed by these Terms. No license to redistribute, modify, or
-commercially exploit any version of this code, including earlier commits, is
-granted to any party.
-
-You may NOT:
-
-- redistribute the source code or any derivative work
-- use the source code or any portion of it in a commercial product or service
-- create competing services or AI connectors derived from this code
-- remove or alter any copyright, trademark, or attribution notices
-
-You MAY:
-
-- read and review the source code
-- reference the architecture for educational purposes
-- file issues or contact the maintainer with questions
+The hosted Parlay service, server-side implementation, Parlay APIs, accounts,
+pricing, data products, brand assets, and service outputs are not licensed
+under MIT and remain proprietary unless separately agreed in writing.
 
 ## 11. Intellectual Property
 
-Parlay, including its website, documentation, brand, software, tool schemas,
-and generated service content, is owned by parlay.run or its licensors. You may
-not copy, reverse engineer, or create derivative services from Parlay except as
-permitted by law or written agreement.
+Except for the public repository contents licensed under MIT as described in
+Section 10, Parlay, including its website, hosted documentation, brand,
+software, hosted tool schemas, and generated service content, is owned by
+parlay.run or its licensors. You may not copy, reverse engineer, or create
+derivative services from Parlay except as permitted by law or written
+agreement.
 
 You retain rights to content you submit. You grant Parlay a limited license to
 process that content as needed to provide, secure, debug, and improve the

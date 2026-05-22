@@ -35,7 +35,7 @@ Parlay's tools will appear in your tool list on the next message.
 
 > **Note:** Custom Connectors are available on Free, Pro, Max, Team, and Enterprise plans. Free Claude users are limited to one custom connector at a time. Do **not** configure Parlay through `claude_desktop_config.json` — that file is for local stdio MCP servers only; Parlay is a remote MCP server.
 
-### Path B — OpenClaw, Cursor, Cline, Claude Code, and other JSON-config clients
+### Path B — OpenClaw, Cursor, Cline, Claude Code, LobeHub, and other JSON-config clients
 
 These clients read MCP server configuration from a JSON file and don't run an OAuth dance themselves. Use a personal access token instead.
 
@@ -53,6 +53,20 @@ openclaw gateway restart
 **Cursor / Cline / Claude Code**
 
 Drop the `parlay` entry from `.mcp.json` (at the root of this repo) into your client's MCP server config.
+
+```json
+{
+  "mcpServers": {
+    "parlay": {
+      "url": "https://mcp.parlay.run/mcp",
+      "transport": "streamable-http",
+      "headers": {
+        "Authorization": "Bearer ${PARLAY_TOKEN}"
+      }
+    }
+  }
+}
+```
 
 ## Coverage
 
@@ -100,4 +114,6 @@ Parlay's real-money venue access is built on [PMXT](https://www.pmxt.dev), an op
 
 ## License
 
-Proprietary. See [TERMS.md](TERMS.md).
+This repository — including connection examples, metadata, and client configuration files for the hosted Parlay MCP service — is licensed under the MIT License. See [LICENSE](LICENSE). The repository/service licensing split is also described in [TERMS.md](TERMS.md).
+
+The hosted Parlay service at `mcp.parlay.run`, Parlay brand assets, APIs, data products, pricing, accounts, and service outputs are proprietary and governed by the Parlay Terms of Service: https://www.parlay.run/terms-of-service.
