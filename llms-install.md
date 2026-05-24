@@ -10,43 +10,61 @@ Treat the token as a secret. Do not print it unnecessarily, log it, commit it, o
 
 Do not attempt to generate the token programmatically. Token generation requires the user to log in to parlay.run in a browser.
 
-## Step 2: Add Parlay to Cline MCP settings
+## Step 2: Add Parlay to Cline's MCP configuration
 
-Prefer Cline's built-in MCP settings UI:
+**Strongly preferred: use Cline's Remote Servers UI.** Manual JSON editing can be brittle across Cline versions and surfaces because Cline-specific transport fields have changed or behaved differently over time (see https://github.com/cline/cline/issues/6767 for historical context). Use the UI when possible.
 
-1. Open the Cline MCP Servers view.
-2. Open the Configure tab.
-3. Click Configure MCP Servers.
-4. Add the `parlay` entry below under the top-level `mcpServers` object.
+### Option A (preferred): Cline Remote Servers UI
 
-For Cline CLI, the MCP settings file is usually:
+1. Open Cline's MCP Servers view, then open the **Remote Servers** tab.
+2. Click "Add Server".
+3. Fill in:
+   - **Server Name**: `parlay`
+   - **Server URL**: `https://mcp.parlay.run/mcp`
+   - **Transport Type**: `Streamable HTTP`
+4. After the server is created, expand its entry and add a header:
+   - Header name: `Authorization`
+   - Header value: `Bearer PARLAY_TOKEN_FROM_USER` (replace placeholder with the actual token from the user)
+5. Save.
 
-- `~/.cline/mcp.json`
+### Option B (fallback): Manual JSON edit
 
-For the Cline VS Code extension, Cline may open its MCP settings file automatically from the Configure tab. If you must locate it manually, common paths are:
+If the UI is unavailable, edit Cline's MCP settings file directly. **Do NOT copy `.mcp.json` from the root of this repo verbatim into Cline.** That file is a generic template for multiple MCP clients; Cline's accepted schema is different. Adapt to the Cline-specific form below.
 
-- macOS: `~/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
-- Linux: `~/.config/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
-- Windows: `%APPDATA%\Code\User\globalStorage\saoudrizwan.claude-dev\settings\cline_mcp_settings.json`
+Locate the Cline MCP settings file:
+- **Cline CLI**: `~/.cline/mcp.json` (macOS/Linux), `%APPDATA%\cline\mcp.json` (Windows)
+- **Cline VS Code extension (v1.102+)**: open Cline → Configure tab → "Configure MCP Servers" (the UI surfaces the correct path automatically)
+- **Cline VS Code extension (pre-v1.102, fallback)**:
+  - macOS: `~/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
+  - Linux: `~/.config/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
+  - Windows: `%APPDATA%\Code\User\globalStorage\saoudrizwan.claude-dev\settings\cline_mcp_settings.json`
 
-Add this entry to `mcpServers`. Replace `PARLAY_TOKEN_FROM_USER` with the token from Step 1.
+Add this entry to `mcpServers`. If `mcpServers` already contains other entries, **merge** the parlay entry — do not overwrite or remove existing servers.
 
 ```json
 {
   "mcpServers": {
     "parlay": {
       "url": "https://mcp.parlay.run/mcp",
-      "transport": "streamable-http",
       "headers": {
         "Authorization": "Bearer PARLAY_TOKEN_FROM_USER"
       },
-      "connectionTimeoutMs": 30000
+      "disabled": false,
+      "autoApprove": []
     }
   }
 }
 ```
 
-If `mcpServers` already contains other entries, merge the `parlay` entry into the existing object. Do not overwrite or remove existing MCP servers.
+**Important Cline-specific notes:**
+
+- **Token literal**: Do not rely on `${PARLAY_TOKEN}` expansion in Cline manual JSON; write the literal token in the `Authorization` header.
+- **Timeout**: If you need to set a connection timeout, use Cline's own `timeout` setting (in seconds). Do NOT copy `connectionTimeoutMs` from the generic `.mcp.json` template — Cline does not recognize that field.
+- **Transport fallback**: If Cline defaults to SSE transport or fails to connect, add `"type": "streamableHttp"` (note: camelCase, not `streamable-http`) to the parlay entry as a hint.
+
+### Token safety reminder
+
+Treat the token as a secret. Do not print, log, or commit it. The token should only exist in the Cline settings file on the user's local machine.
 
 ## Step 3: Verify
 

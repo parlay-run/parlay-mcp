@@ -44,6 +44,14 @@ These clients read MCP server configuration from a JSON file and don't run an OA
 1. Generate a token at https://parlay.run/settings/tokens
 2. Export it: `export PARLAY_TOKEN=parlay_pat_xxxxxxxxxxxx`
 
+**Security**: Treat your token as a secret. Do not share, log, or commit it. Store it only in your local MCP client configuration.
+
+#### Cline
+
+**Recommended**: Use Cline's Remote Servers tab → "Add Server", entering `https://mcp.parlay.run/mcp` as the URL, selecting **Streamable HTTP** as the Transport Type, and adding `Authorization: Bearer <your token>` as a header.
+
+For manual JSON editing or detailed troubleshooting, see [llms-install.md](./llms-install.md). **Do not copy `.mcp.json` verbatim into Cline** — Cline uses a slightly different schema (covered in the install guide).
+
 **OpenClaw**
 
 ```bash
@@ -52,7 +60,7 @@ openclaw plugins install ./parlay-mcp
 openclaw gateway restart
 ```
 
-**Cursor / Cline / Claude Code**
+**Cursor / Claude Code**
 
 Drop the `parlay` entry from `.mcp.json` (at the root of this repo) into your client's MCP server config.
 
