@@ -4,6 +4,8 @@
 
 The AI-native intelligence layer for prediction markets.
 
+![Parlay cross-venue spread comparison across Polymarket and Kalshi](./docs/hero.png)
+
 Parlay is a hosted MCP server for searching, comparing, and briefing prediction markets from AI assistants. It is a PMXT-backed aggregator over Polymarket, Kalshi, and Limitless, with Manifold treated separately as a sentiment-only signal. This repository is the public bundle and connection reference for the hosted Parlay service at `https://mcp.parlay.run/mcp`; it does not contain the MCP server implementation.
 
 ## What it does
